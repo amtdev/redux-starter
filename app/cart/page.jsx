@@ -1,21 +1,16 @@
 'use client';
 import Breadcrumb from '@/components/Breadcrumb';
 import CartProduct from '@/components/CartProduct';
-import { Minus, Plus, Trash2 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 export default function Cart() {
   const cartItems = useSelector((state) => state.cart);
+  const subTotal = cartItems.reduce((acc, currentItem) => {
+    return acc + currentItem.price * currentItem.qty;
+  }, 0);
   console.log(cartItems);
   const dispatch = useDispatch();
-
-  function handleAddToCart() {
-    console.log(product);
-    dispatch(addToCart(product));
-  }
 
   function handleRemoveCartItem(cartId) {
     dispatch(removeFromCart(cartId));
@@ -62,7 +57,7 @@ export default function Cart() {
           <h2 className="pb-3 text-2xl">Cart total</h2>
           <div className="flex items-center justify-between pb-6 border-b border-slate-500">
             <span>Subtotal </span>
-            <span>$589</span>
+            <span>$ {subTotal}</span>
           </div>
           <div className="flex items-center justify-between pb-4 mt-2">
             <span>Tax </span>
